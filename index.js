@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const { MongoClient, ServerApiVersion } = require('mongodb');
+const utils = require('./src/utils.js')
 require("dotenv").config({ path: path.resolve(__dirname, '.env') })
 
 const portNumber = process.argv[2] || 5000;
@@ -21,6 +22,7 @@ const uri = `mongodb+srv://${username}:${password}@cluster0.4yqidsx.mongodb.net/
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 client.connect();
 
+images = 
 app.get("/", (_, response) => {
     response.render("index");
 });
