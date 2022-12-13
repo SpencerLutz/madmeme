@@ -1,11 +1,12 @@
-# MadMeme - A Mad Libs-inspired Meme Generator
-### Andrew Green (*agreen13*), Levi Lutz (*levi*), Spencer Lutz (*sjlutz*)
+MadMeme - A Mad Libs-inspired Meme Generator
 
-## Description
+Andrew Green (*agreen13*), Levi Lutz (*levi*), Spencer Lutz (*sjlutz*)
+
+Description
 Our website prompts a user to create a sentence with blanks. We fill these blanks with random words, put them on random images, and display options for the user. The user can save their favorites in a database and get a permalink to view later or share with friends.
 
-## APIs
+APIs
 We use [Insert word API here] to get words to fill in and [apimeme.com](apimeme.com)'s meme generator API to create the memes.
 
-## Youtube Demo
+Youtube Demo
 [Insert YouTube Demo here]
