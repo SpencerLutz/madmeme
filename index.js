@@ -1,3 +1,4 @@
+const path = require("path");
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
@@ -13,11 +14,14 @@ app.set("view engine", "ejs");
 app.listen(portNumber);
 console.log(`Web server started and running at http://localhost:${portNumber}`)
 
-const uri = `fill in mongodb here`;
+const username = process.env.DB_USERNAME;
+const password = process.env.DB_PASSWORD;
+
+const uri = `mongodb+srv://${username}:${password}@cluster0.4yqidsx.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 client.connect();
 
-app.get("/", (request, response) => {
+app.get("/", (_, response) => {
     response.render("index");
 });
 
