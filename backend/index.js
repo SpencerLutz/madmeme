@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const utils = require('./src/utils.js')
 require("dotenv").config({ path: path.resolve(__dirname, '.env') })
+require('express-async-errors');
 
 const portNumber = process.argv[2] || 5000;
 
@@ -32,6 +33,11 @@ app.post("/images", async (request, response) => {
     memes = await utils.generateRandomMemes(top, bottom, 6)
     response.render("images", {urls: memes})
 })
+
+app.get("/test", async (req, resp) => {
+    const { type } = req.query;
+    resp.send(await utils.getWord(type));
+});
 
 app.use((_, response) => {
     response.status(404).send("Resource not found");

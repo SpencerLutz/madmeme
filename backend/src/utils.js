@@ -1,12 +1,30 @@
 const qs = require('querystring')
 const path = require('path')
-require("dotenv").config({ path: path.resolve(__dirname, '.env') })
 
 let meme_ids = null
 const words = {
     'noun': ['ball', 'dog', 'fart'],
     'verb': ['smell', 'whisper', 'find']
 }
+
+
+const word_types = ["noun", "verb", "adjective", "adverb"];
+
+
+async function getWord(type) {
+    // Get a word, given type
+    if (!word_types.includes(type)) {
+        throw new Error(`Unknown word type: ${type}`);
+    }
+
+    resp = await fetch(
+        'https://api.api-ninjas.com/v1/randomword?type=verb',
+        {headers: {"X-Api-Key": process.env.API_NINJAS_KEY}, },
+    )
+
+    return await resp.json()
+}
+
 
 async function getMemeIds(boxes=2) {
     if (meme_ids === null)
@@ -64,4 +82,4 @@ async function generateRandomMemes(top, bottom, count) {
     return urls
 }
 
-module.exports = {generateRandomMemes}
+module.exports = {generateRandomMemes, getWord}
