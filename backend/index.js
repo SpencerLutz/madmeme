@@ -27,7 +27,9 @@ app.get("/", (_, response) => {
 });
 
 app.post("/images", async (request, response) => {
-    memes = utils.generateRandomMemes(6)
+    top = '[noun] does [verb]. [verb] is done by [noun].'
+    bottom = 'verb: [verb] noun: [noun] adverb: [adverb]!!'
+    memes = utils.generateRandomMemes(top, bottom, 6)
 
     response.render("images")
 })
