@@ -18,6 +18,8 @@ console.log(`Web server started and running at http://localhost:${portNumber}`)
 
 const username = process.env.DB_USERNAME;
 const password = process.env.DB_PASSWORD;
+const db_name = 'madmeme'
+const coll_name = 'memes'
 
 const uri = `mongodb+srv://${username}:${password}@cluster0.4yqidsx.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
@@ -30,14 +32,29 @@ app.get("/", (_, response) => {
 app.post("/images", async (request, response) => {
     top = request.body.top
     bottom = request.body.bottom
-    memes = await utils.generateRandomMemes(top, bottom, 6)
-    response.render("images", {urls: memes})
+    urls = await utils.generateRandomMemes(top, bottom, 6)
+    ids = []
+    for (url of urls) {
+        id = utils.generateId()
+        ids.push(id)
+        client.db(db_name).collection(coll_name).insertOne({
+            id: id,
+            url: url
+        })
+    }
+    response.render("images", {urls: urls, ids: ids})
 })
 
-app.get("/test", async (req, resp) => {
-    const { type } = req.query;
-    resp.send(await utils.getWord(type));
-});
+app.get("/meme/:id", async (request, response) => {
+    id = request.params.id
+    client.db(db_name).collection(coll_name).findOne({id: id}).then((res) => {
+        if (res) {
+            response.render("fart", {url: res.url})
+        } else {
+            response.render("nofart")
+        }
+    })
+})
 
 app.use((_, response) => {
     response.status(404).send("Resource not found");
