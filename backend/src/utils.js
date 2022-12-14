@@ -60,15 +60,12 @@ function randomChoice(arr, n) {
     return arr.sort(() => 0.5 - Math.random()).slice(0, n)
 }
 
-async function generateWords(text) {
-    const all_types2 = [...text.matchAll(/\[([a-z]+)\]/g)].map(res => res[1]);
-    return await getWords(all_types2);
-}
-
-function substituteWords(text, words) {
-    console.log("WORDS", words)
-    while (/\[[a-z]+\]/g.test(text)) {
-        text = text.replace(/\[[a-z]+\]/, words.shift());
+async function replaceText(text) {
+    for (part of word_types) {
+        while (text.includes(`[${part}]`)) {
+            replacement = await getWord(part)
+            text = text.replace(`[${part}]`, replacement)
+        }
     }
     return text
 }
