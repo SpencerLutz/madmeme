@@ -3,11 +3,28 @@
 
 <head>
 	<meta charset="utf-8" />
+    <link rel="stylesheet" href="../style.css">
 	<title>MadMeme</title>
 </head>
 
 <body>
-    <h1>Mad Meme LESGOO V@</h1>
+    <hr>
+	<h1>MadMeme</h1>
+    <hr>
+    <form action="/images" method="post">
+        <textarea id="top" class="adlib" name="top" rows="10"></textarea><br>
+        <label for="top">Top Text:</label><br><br>
+        <textarea id="bottom" class="adlib" name="bottom" rows="10"></textarea><br>
+        <label for="bottom">Bottom Text:</label><br><br>
+        <button type="submit">Submit</button>
+    </form>
+    <hr>
+    <h2>Instructions</h2>
+    <p>
+        <b>Using nouns, verbs, adjectives, and adverbs, insert your adlib template in the text area above as in the following example:</b><br><br>
+        "The [adjective] [noun] went to the [noun] and [verb] the [noun]."<br><br>
+        <b>When you're done, click Submit to generate your memes!</b>
+    </p>
 </body>
 
 </html>
