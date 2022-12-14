@@ -2,14 +2,8 @@ const qs = require('querystring')
 const path = require('path')
 
 let meme_ids = null
-const words = {
-    'noun': ['ball', 'dog', 'fart'],
-    'verb': ['smell', 'whisper', 'find']
-}
-
 
 const word_types = ["noun", "verb", "adjective", "adverb"];
-
 
 async function getWord(type) {
     // Get a word, given type
@@ -62,9 +56,9 @@ function randomChoice(arr, n) {
 }
 
 function replaceText(text) {
-    for (part in words) {
+    for (part in word_types) {
         while (text.includes(`[${part}]`)) {
-            replacement = randomChoice(words[part], 1)[0]
+            replacement = getWord(part)
             text = text.replace(`[${part}]`, replacement)
         }
     }
