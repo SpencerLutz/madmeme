@@ -27,11 +27,10 @@ app.get("/", (_, response) => {
 });
 
 app.post("/images", async (request, response) => {
-    top = '[noun] does [verb]. [verb] is done by [noun].'
-    bottom = 'verb: [verb] noun: [noun] adverb: [adverb]!!'
-    memes = utils.generateRandomMemes(top, bottom, 6)
-
-    response.render("images")
+    top = request.body.top
+    bottom = request.body.bottom
+    memes = await utils.generateRandomMemes(top, bottom, 6)
+    response.render("images", {urls: memes})
 })
 
 app.use((_, response) => {
