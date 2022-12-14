@@ -64,7 +64,7 @@ async function replaceText(text) {
     const all_types2 = [...text.matchAll(/\[([a-z]+)\]/g)].map(res => res[1]);
     const words = await getWords(all_types2);
     while (/\[[a-z]+\]/g.test(text)) {
-        text = text.replace(/\[[a-z]+\]/, words.pop());
+        text = text.replace(/\[[a-z]+\]/, words.shift());
     }
     return text
 }
