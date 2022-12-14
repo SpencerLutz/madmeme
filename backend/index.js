@@ -43,7 +43,7 @@ app.post("/images", async (request, response) => {
             url: url
         })
     }
-    db_urls = ids.map(id => `http://madmeme.sites-admin.com/meme/${id}`)
+    db_urls = ids.map(id => `https://madmeme.sites-admin.com/meme/${id}`)
     response.render("images", {urls: urls, db_urls: db_urls})
 })
 
