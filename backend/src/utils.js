@@ -69,6 +69,7 @@ function substituteWords(text, words) {
     console.log("WORDS", words)
     while (/\[[a-z]+\]/g.test(text)) {
         text = text.replace(/\[[a-z]+\]/, words.shift());
+    }
     return text
 }
 
