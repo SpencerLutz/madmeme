@@ -12,6 +12,7 @@ const portNumber = process.argv[2] || 5000;
 app.use(bodyParser.urlencoded({extended:false}));
 app.set("views", path.resolve(__dirname, "templates"));
 app.set("view engine", "ejs");
+app.use(express.static(path.resolve(__dirname, "static")));
 
 app.listen(portNumber);
 console.log(`Web server started and running at http://localhost:${portNumber}`)
