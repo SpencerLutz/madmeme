@@ -88,12 +88,12 @@ async function generateRandomMemes(top, bottom, count) {
     ]);
     // Generate the images
     use = randomChoice(images, count)
-    urls = []
-    for (img of use) {
-        url = await getMeme(substituteWords(top, allTopWords.pop()), substituteWords(bottom, allBottomWords.pop()), img);
-        urls.push(url)
-    }
-    return urls
+    memePromises = use.map(img => getMeme(
+        substituteWords(top, allTopWords.pop()),
+        substituteWords(bottom, allBottomWords.pop()),
+        img,
+    ))
+    return await Promise.all(memePromises);
 }
 
 function generateId() {
