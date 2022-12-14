@@ -60,9 +60,13 @@ function randomChoice(arr, n) {
     return arr.sort(() => 0.5 - Math.random()).slice(0, n)
 }
 
-async function replaceText(text) {
+async function generateWords(text) {
     const all_types2 = [...text.matchAll(/\[([a-z]+)\]/g)].map(res => res[1]);
-    const words = await getWords(all_types2);
+    return await getWords(all_types2);
+}
+
+function substituteWords(text, words) {
+    console.log("WORDS", words)
     while (/\[[a-z]+\]/g.test(text)) {
         text = text.replace(/\[[a-z]+\]/, words.shift());
     }
@@ -70,11 +74,23 @@ async function replaceText(text) {
 }
 
 async function generateRandomMemes(top, bottom, count) {
-    images = await getMemeIds()
+    images = await getMemeIds();
+    // Build promise lists to parallelize all word API calls
+    allTopWordsPromises = [];
+    allBottomWordsPromises = [];
+    for (i = 0; i < count; i++) {
+        allTopWordsPromises.push(generateWords(top));
+        allBottomWordsPromises.push(generateWords(bottom));
+    }
+    [allTopWords, allBottomWords] = await Promise.all([
+        Promise.all(allTopWordsPromises),
+        Promise.all(allBottomWordsPromises),
+    ]);
+    // Generate the images
     use = randomChoice(images, count)
     urls = []
     for (img of use) {
-        url = await getMeme(await replaceText(top), await replaceText(bottom), img)
+        url = await getMeme(substituteWords(top, allTopWords.pop()), substituteWords(bottom, allBottomWords.pop()), img);
         urls.push(url)
     }
     return urls
