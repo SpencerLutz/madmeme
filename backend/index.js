@@ -34,6 +34,11 @@ app.post("/images", async (request, response) => {
     response.render("images")
 })
 
+app.get("/test", async (req, resp) => {
+    const { type } = req.query;
+    resp.send(await utils.getWord(type));
+});
+
 app.use((_, response) => {
     response.status(404).send("Resource not found");
 });
