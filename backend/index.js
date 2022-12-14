@@ -49,9 +49,9 @@ app.get("/meme/:id", async (request, response) => {
     id = request.params.id
     client.db(db_name).collection(coll_name).findOne({id: id}).then((res) => {
         if (res) {
-            response.render("fart", {url: res.url})
+            response.render("meme", {url: res.url})
         } else {
-            response.render("nofart")
+            response.render("notfound")
         }
     })
 })
