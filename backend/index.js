@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const utils = require('./src/utils.js')
 require("dotenv").config({ path: path.resolve(__dirname, '.env') })
+require('express-async-errors');
 
 const portNumber = process.argv[2] || 5000;
 
