@@ -57,10 +57,11 @@ function randomChoice(arr, n) {
     return arr.sort(() => 0.5 - Math.random()).slice(0, n)
 }
 
-function replaceText(text) {
-    for (part in word_types) {
+async function replaceText(text) {
+    for (part of word_types) {
         while (text.includes(`[${part}]`)) {
-            replacement = getWord(part)
+            replacement = await getWord(part)
+            console.log(replacement)
             text = text.replace(`[${part}]`, replacement)
         }
     }
@@ -72,10 +73,19 @@ async function generateRandomMemes(top, bottom, count) {
     use = randomChoice(images, count)
     urls = []
     for (img of use) {
-        url = await getMeme(replaceText(top), replaceText(bottom), img)
+        url = await getMeme(await replaceText(top), await replaceText(bottom), img)
         urls.push(url)
     }
     return urls
 }
 
-module.exports = {generateRandomMemes, getWord}
+function generateId() {
+    const length = 6
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_'
+    var id = ''
+    for (var i = 0; i < length; i++)
+        id += chars[Math.floor(Math.random()*chars.length)]
+    return id
+}
+
+module.exports = {generateRandomMemes, generateId}
