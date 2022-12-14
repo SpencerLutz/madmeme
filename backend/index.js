@@ -22,10 +22,17 @@ const uri = `mongodb+srv://${username}:${password}@cluster0.4yqidsx.mongodb.net/
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 client.connect();
 
-images = 
+images = []
+console.log(images)
 app.get("/", (_, response) => {
     response.render("index");
 });
+
+app.post("/images", async (request, response) => {
+    images = await utils.getImages()
+    
+    response.render("images")
+})
 
 app.use((_, response) => {
     response.status(404).send("Resource not found");
