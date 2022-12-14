@@ -3,6 +3,11 @@ const path = require('path')
 require("dotenv").config({ path: path.resolve(__dirname, '.env') })
 
 let meme_ids = null
+const words = {
+    'noun': ['ball', 'dog', 'fart'],
+    'verb': ['smell', 'whisper', 'find']
+}
+
 async function getMemeIds(boxes=2) {
     if (meme_ids === null)
         console.log('fetching')
@@ -24,17 +29,31 @@ async function getMeme(top, bottom, template) {
             text1: bottom
         }
     })
-    return response.data
+    data = await response.json()
+    console.log(data)
+    return data.data.url
+}
+
+function randomChoice(arr, n) {
+    return arr.sort(() => 0.5 - Math.random()).slice(0, n)
 }
 
 function replaceText(text) {
-    tags = ['noun', 'verb']
+    for (part in words) {
+        while (text.includes(`[${part}]`)) {
+            replacement = randomChoice(words[part], 1)[0]
+            text = text.replace(`[${part}]`, replacement)
+        }
+    }
+    return text
 }
 
 async function generateRandomMemes(top, bottom, count) {
     images = await getMemeIds()
-    use = images.sort(() => 0.5 - Math.random()).slice(0, count)
-    
+    use = randomChoice(images, count)
+    for (img of use) {
+        console.log(await getMeme(replaceText(top), replaceText(bottom), img))
+    }
 
 }
 
