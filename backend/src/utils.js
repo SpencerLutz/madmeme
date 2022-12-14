@@ -5,20 +5,23 @@ let meme_ids = null
 
 const word_types = ["noun", "verb", "adjective", "adverb"];
 
-async function getWord(type) {
-    // Get a word, given type
-    if (!word_types.includes(type)) {
-        throw new Error(`Unknown word type: ${type}`);
-    };
 
-    resp = await fetch(
-        'https://api.api-ninjas.com/v1/randomword?type=verb',
+async function getWords(types) {
+    // Get words, given types
+    if (!types.every(type => word_types.includes(type))) {
+        throw new Error(`Unknown word type: ${types}`);
+    }
+
+    requests = types.map(type => fetch(
+        `https://api.api-ninjas.com/v1/randomword?type=${type}`,
         {headers: {"X-Api-Key": process.env.API_NINJAS_KEY}, },
-    );
+    ));
 
-    jsdata = await resp.json();
+    resps = await Promise.all(requests);
 
-    return jsdata.word;
+    jsdata = await Promise.all(resps.map(resp => resp.json()));
+
+    return jsdata.map(jsd => jsd.word);
 }
 
 
@@ -61,7 +64,6 @@ async function replaceText(text) {
     for (part of word_types) {
         while (text.includes(`[${part}]`)) {
             replacement = await getWord(part)
-            console.log(replacement)
             text = text.replace(`[${part}]`, replacement)
         }
     }
@@ -69,14 +71,26 @@ async function replaceText(text) {
 }
 
 async function generateRandomMemes(top, bottom, count) {
-    images = await getMemeIds()
-    use = randomChoice(images, count)
-    urls = []
-    for (img of use) {
-        url = await getMeme(await replaceText(top), await replaceText(bottom), img)
-        urls.push(url)
+    images = await getMemeIds();
+    // Build promise lists to parallelize all word API calls
+    allTopWordsPromises = [];
+    allBottomWordsPromises = [];
+    for (i = 0; i < count; i++) {
+        allTopWordsPromises.push(generateWords(top));
+        allBottomWordsPromises.push(generateWords(bottom));
     }
-    return urls
+    [allTopWords, allBottomWords] = await Promise.all([
+        Promise.all(allTopWordsPromises),
+        Promise.all(allBottomWordsPromises),
+    ]);
+    // Generate the images
+    use = randomChoice(images, count)
+    memePromises = use.map(img => getMeme(
+        substituteWords(top, allTopWords.pop()),
+        substituteWords(bottom, allBottomWords.pop()),
+        img,
+    ))
+    return await Promise.all(memePromises);
 }
 
 function generateId() {
