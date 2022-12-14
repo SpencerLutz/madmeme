@@ -5,22 +5,6 @@ let meme_ids = null
 
 const word_types = ["noun", "verb", "adjective", "adverb"];
 
-async function getWord(type) {
-    // Get a word, given type
-    if (!word_types.includes(type)) {
-        throw new Error(`Unknown word type: ${type}`);
-    };
-
-    resp = await fetch(
-        'https://api.api-ninjas.com/v1/randomword?type=verb',
-        {headers: {"X-Api-Key": process.env.API_NINJAS_KEY}, },
-    );
-
-    jsdata = await resp.json();
-
-    return jsdata.word;
-}
-
 
 async function getWords(types) {
     // Get words, given types
