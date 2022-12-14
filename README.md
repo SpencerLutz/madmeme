@@ -1,6 +1,8 @@
 # MadMeme - A Mad Libs-inspired Meme Generator
 ### Andrew Green (*agreen13*), Levi Lutz (*levi*), Spencer Lutz (*sjlutz*)
 
+## [Try it here!](https://madmeme.sites-admin.com/)
+
 ## Description
 Our website prompts a user to create a sentence with blanks. We fill these blanks with random words, put them on random memes, and display options for the user. The user can save their favorites in a database and get a permalink to view later or share with friends.
 
