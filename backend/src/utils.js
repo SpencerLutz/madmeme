@@ -15,14 +15,16 @@ async function getWord(type) {
     // Get a word, given type
     if (!word_types.includes(type)) {
         throw new Error(`Unknown word type: ${type}`);
-    }
+    };
 
     resp = await fetch(
         'https://api.api-ninjas.com/v1/randomword?type=verb',
         {headers: {"X-Api-Key": process.env.API_NINJAS_KEY}, },
-    )
+    );
 
-    return await resp.json()
+    jsdata = await resp.json();
+
+    return jsdata.word;
 }
 
 
