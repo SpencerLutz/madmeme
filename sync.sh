@@ -2,6 +2,8 @@
 
 set -e
 
+cd /root/madmeme
+
 git pull
 
 cd backend
