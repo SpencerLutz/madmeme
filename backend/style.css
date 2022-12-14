@@ -1,4 +1,4 @@
-body {
+body, b {
     text-align: center;
     background-color: black;
     color: white;
@@ -8,4 +8,8 @@ body {
 textarea {
     background-color: black;
     color: white;
+}
+
+p {
+    font-family:'Courier New', Courier, monospace;
 }
