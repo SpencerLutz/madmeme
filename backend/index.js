@@ -40,7 +40,8 @@ app.post("/images", async (request, response) => {
         ids.push(id)
         client.db(db_name).collection(coll_name).insertOne({
             id: id,
-            url: url
+            url: url,
+            created: new Date(),
         })
     }
     db_urls = ids.map(id => `http://madmeme.sites-admin.com/meme/${id}`)
