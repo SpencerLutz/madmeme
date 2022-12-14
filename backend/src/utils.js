@@ -1,4 +1,4 @@
-//const axios = require('axios')
+const qs = require('querystring')
 const path = require('path')
 require("dotenv").config({ path: path.resolve(__dirname, '.env') })
 
@@ -19,18 +19,23 @@ async function getMemeIds(boxes=2) {
 }
 
 async function getMeme(top, bottom, template) {
+    body = {
+        template_id: template,
+        username: process.env.IF_USERNAME,
+        password: process.env.IF_PASSWORD,
+        text0: top,
+        text1: bottom
+    }
+
     response = await fetch('https://api.imgflip.com/caption_image', {
         method: 'POST',
-        body: {
-            template_id: template,
-            username: process.env.IF_USERNAME,
-            password: process.env.IF_PASSWORD,
-            text0: top,
-            text1: bottom
-        }
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded;'
+        },
+        body: qs.stringify(body)
     })
+
     data = await response.json()
-    console.log(data)
     return data.data.url
 }
 
