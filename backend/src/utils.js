@@ -74,10 +74,12 @@ function replaceText(text) {
 async function generateRandomMemes(top, bottom, count) {
     images = await getMemeIds()
     use = randomChoice(images, count)
+    urls = []
     for (img of use) {
-        console.log(await getMeme(replaceText(top), replaceText(bottom), img))
+        url = await getMeme(replaceText(top), replaceText(bottom), img)
+        urls.push(url)
     }
-
+    return urls
 }
 
 module.exports = {generateRandomMemes, getWord}
