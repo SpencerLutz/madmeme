@@ -1,0 +1,14 @@
+[Unit]
+Description=madmeme.js
+Documentation=https://madmeme.sites-admin.com/
+After=network.target
+
+[Service]
+Environment=NODE_PORT=80
+Type=simple
+User=root
+ExecStart=/usr/bin/node /root/madmeme/backend/index.js 80
+Restart=no
+
+[Install]
+WantedBy=multi-user.target
