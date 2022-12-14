@@ -22,7 +22,6 @@ const uri = `mongodb+srv://${username}:${password}@cluster0.4yqidsx.mongodb.net/
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 client.connect();
 
-images = []
 console.log(images)
 app.get("/", (_, response) => {
     response.render("index");
