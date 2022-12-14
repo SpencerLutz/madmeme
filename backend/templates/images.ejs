@@ -4,25 +4,56 @@
 <head>
 	<meta charset="utf-8" />
 	<title>MadMeme</title>
-	<link rel="stylesheet" href="">
+	<link rel="stylesheet" href="../static/style.css">
+	<script src="../src/utils.js"></script>
 </head>
 
 <body>
 	<hr>
     <h1>Images</h1>
 	<hr>
-	<div class="container">
-        <img src="../meme.jpeg" class="image" style="width:100%">
+	<div class="container" onclick="copy(0)">
+        <img src="<%- urls[0] %>" class="image" style="width:100%">
         <div class="middle">
           <div class="copyText">Copy</div>
         </div>
     </div>
     <br>
-	<img src="<%- urls[1] %>">
-	<img src="<%- urls[2] %>">
-	<img src="<%- urls[3] %>">
-	<img src="<%- urls[4] %>">
-	<img src="<%- urls[5] %>">
+	<div class="container" onclick="copy(1)">
+        <img src="<%- urls[1] %>" class="image" style="width:100%">
+        <div class="middle">
+          <div class="copyText">Copy</div>
+        </div>
+    </div>
+    <br>
+	<div class="container" onclick="copy(2)">
+        <img src="<%- urls[2] %>" class="image" style="width:100%">
+        <div class="middle">
+          <div class="copyText">Copy</div>
+        </div>
+    </div>
+    <br>
+	<div class="container" onclick="copy(3)">
+        <img src="<%- urls[3] %>" class="image" style="width:100%">
+        <div class="middle">
+          <div class="copyText">Copy</div>
+        </div>
+    </div>
+    <br>
+	<div class="container" onclick="copy(4)">
+        <img src="<%- urls[4] %>" class="image" style="width:100%">
+        <div class="middle">
+          <div class="copyText">Copy</div>
+        </div>
+    </div>
+    <br>
+	<div class="container" onclick="copy(5)">
+        <img src="<%- urls[5] %>" class="image" style="width:100%">
+        <div class="middle">
+          <div class="copyText">Copy</div>
+        </div>
+    </div>
+    <br>
 	<hr>
 </body>
 

@@ -57,6 +57,11 @@ function randomChoice(arr, n) {
     return arr.sort(() => 0.5 - Math.random()).slice(0, n)
 }
 
+function copy(input) {
+    navigator.clipboard.writeText(input);
+    //write text "Copied to clipboard!"
+}
+
 async function replaceText(text) {
     for (part of word_types) {
         while (text.includes(`[${part}]`)) {
