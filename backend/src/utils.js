@@ -61,7 +61,6 @@ async function replaceText(text) {
     for (part of word_types) {
         while (text.includes(`[${part}]`)) {
             replacement = await getWord(part)
-            console.log(replacement)
             text = text.replace(`[${part}]`, replacement)
         }
     }
