@@ -12,6 +12,7 @@ const portNumber = process.argv[2] || 5000;
 app.use(bodyParser.urlencoded({extended:false}));
 app.set("views", path.resolve(__dirname, "templates"));
 app.set("view engine", "ejs");
+app.use(express.static(path.resolve(__dirname, "static")));
 
 app.listen(portNumber);
 console.log(`Web server started and running at http://localhost:${portNumber}`)
@@ -42,7 +43,8 @@ app.post("/images", async (request, response) => {
             url: url
         })
     }
-    response.render("images", {urls: urls, ids: ids})
+    db_urls = ids.map(id => `http://madmeme.sites-admin.com/meme/${id}`)
+    response.render("images", {urls: urls, db_urls: db_urls})
 })
 
 app.get("/meme/:id", async (request, response) => {
