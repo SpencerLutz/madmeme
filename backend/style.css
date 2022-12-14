@@ -13,3 +13,8 @@ textarea {
 p {
     font-family:'Courier New', Courier, monospace;
 }
+
+.resultsBox {
+    display: flex;
+    justify-content: space-evenly;
+}
