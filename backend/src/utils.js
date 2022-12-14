@@ -22,6 +22,25 @@ async function getWord(type) {
 }
 
 
+async function getWords(types) {
+    // Get words, given types
+    if (!types.every(type => word_types.includes(type))) {
+        throw new Error(`Unknown word type: ${types}`);
+    }
+
+    requests = types.map(type => fetch(
+        `https://api.api-ninjas.com/v1/randomword?type=${type}`,
+        {headers: {"X-Api-Key": process.env.API_NINJAS_KEY}, },
+    ));
+
+    resps = await Promise.all(requests);
+
+    jsdata = await Promise.all(resps.map(resp => resp.json()));
+
+    return jsdata.map(jsd => jsd.word);
+}
+
+
 async function getMemeIds(boxes=2) {
     if (meme_ids === null)
         console.log('fetching')
@@ -58,11 +77,10 @@ function randomChoice(arr, n) {
 }
 
 async function replaceText(text) {
-    for (part of word_types) {
-        while (text.includes(`[${part}]`)) {
-            replacement = await getWord(part)
-            text = text.replace(`[${part}]`, replacement)
-        }
+    const all_types2 = [...text.matchAll(/\[([a-z]+)\]/g)].map(res => res[1]);
+    const words = await getWords(all_types2);
+    while (/\[[a-z]+\]/g.test(text)) {
+        text = text.replace(/\[[a-z]+\]/, words.pop());
     }
     return text
 }
