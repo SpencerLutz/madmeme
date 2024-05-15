@@ -1,66 +1,67 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>MadMeme</title>
+    <link rel="stylesheet" href="style.css" />
+    <script>
+      function copy(url, i) {
+        navigator.clipboard.writeText(url);
+        document.getElementById(`cp${i}`).innerHTML = "Copied To Clipboard!";
+        setTimeout(
+          () => (document.getElementById(`cp${i}`).innerHTML = "Copy"),
+          2000
+        );
+      }
+    </script>
+  </head>
 
-<head>
-	<meta charset="utf-8" />
-	<title>MadMeme</title>
-	<link rel="stylesheet" href="style.css">
-	<script>
-		function copy(url, i) {
-			navigator.clipboard.writeText(url);
-			document.getElementById(`cp${i}`).innerHTML = "Copied To Clipboard!";
-			setTimeout(() => document.getElementById(`cp${i}`).innerHTML = "Copy", 2000);
-		}
-	</script>
-</head>
-
-<body>
-	<hr>
+  <body>
+    <hr />
     <h1>Images</h1>
-	<hr>
-	<div class="container" onclick="copy('<%- db_urls[0] %>', 0)">
-        <img src="<%- urls[0] %>" class="image" style="width:100%">
-        <div class="middle">
-          <div class="copyText" id="cp0">Copy</div>
-        </div>
+    <hr />
+    <div class="container" onclick="copy('<%- db_urls[0] %>', 0)">
+      <img src="<%- urls[0] %>" class="image" style="width: 100%" />
+      <div class="middle">
+        <div class="copyText" id="cp0">Copy</div>
+      </div>
     </div>
-    <br>
-	<div class="container" onclick="copy('<%- db_urls[1] %>', 1)">
-        <img src="<%- urls[1] %>" class="image" style="width:100%">
-        <div class="middle">
-          <div class="copyText" id="cp1">Copy</div>
-        </div>
+    <br />
+    <div class="container" onclick="copy('<%- db_urls[1] %>', 1)">
+      <img src="<%- urls[1] %>" class="image" style="width: 100%" />
+      <div class="middle">
+        <div class="copyText" id="cp1">Copy</div>
+      </div>
     </div>
-    <br>
-	<div class="container" onclick="copy('<%- db_urls[2] %>', 2)">
-        <img src="<%- urls[2] %>" class="image" style="width:100%">
-        <div class="middle">
-          <div class="copyText" id="cp2">Copy</div>
-        </div>
+    <br />
+    <div class="container" onclick="copy('<%- db_urls[2] %>', 2)">
+      <img src="<%- urls[2] %>" class="image" style="width: 100%" />
+      <div class="middle">
+        <div class="copyText" id="cp2">Copy</div>
+      </div>
     </div>
-    <br>
-	<div class="container" onclick="copy('<%- db_urls[3] %>', 3)">
-        <img src="<%- urls[3] %>" class="image" style="width:100%">
-        <div class="middle">
-          <div class="copyText" id="cp3">Copy</div>
-        </div>
+    <br />
+    <div class="container" onclick="copy('<%- db_urls[3] %>', 3)">
+      <img src="<%- urls[3] %>" class="image" style="width: 100%" />
+      <div class="middle">
+        <div class="copyText" id="cp3">Copy</div>
+      </div>
     </div>
-    <br>
-	<div class="container" onclick="copy('<%- db_urls[4] %>', 4)">
-        <img src="<%- urls[4] %>" class="image" style="width:100%">
-        <div class="middle">
-          <div class="copyText" id="cp4">Copy</div>
-        </div>
+    <br />
+    <div class="container" onclick="copy('<%- db_urls[4] %>', 4)">
+      <img src="<%- urls[4] %>" class="image" style="width: 100%" />
+      <div class="middle">
+        <div class="copyText" id="cp4">Copy</div>
+      </div>
     </div>
-    <br>
-	<div class="container" onclick="copy('<%- db_urls[5] %>', 5)">
-        <img src="<%- urls[5] %>" class="image" style="width:100%">
-        <div class="middle">
-          <div class="copyText" id="cp5">Copy</div>
-        </div>
+    <br />
+    <div class="container" onclick="copy('<%- db_urls[5] %>', 5)">
+      <img src="<%- urls[5] %>" class="image" style="width: 100%" />
+      <div class="middle">
+        <div class="copyText" id="cp5">Copy</div>
+      </div>
     </div>
-    <br>
-	<hr>
-</body>
-
+    <br />
+    <hr />
+  </body>
 </html>
