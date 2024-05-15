@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "madmeme.fullname" . }}
+  labels:
+    {{- include "madmeme.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "madmeme.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "madmeme.labels" . | nindent 8 }}
+    spec:
+      imagePullSecrets:
+        - name: {{ printf "%s-regcred" ( include "madmeme.fullname" . ) }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          env:
+            - name: API_NINJAS_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: apiNinjasKey
+                  name: {{ include "madmeme.fullname" . }}
+            - name: IF_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  key: imgFlipUsername
+                  name: {{ include "madmeme.fullname" . }}
+            - name: IF_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: imgFlipPassword
+                  name: {{ include "madmeme.fullname" . }}
+            - name: MONGO_HOST
+              value: {{ template "mongo.dnsname" .Subcharts.mongo }}
+            - name: MONGO_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  key: user
+                  name: {{ template "mongo.fullname" .Subcharts.mongo }}
+            - name: MONGO_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: {{ template "mongo.fullname" .Subcharts.mongo }}
+            - name: MONGO_PORT
+              value: "27017"
+            - name: NODE_PORT
+              value: "80"
+          livenessProbe:
+            {{- toYaml .Values.livenessProbe | nindent 12 }}
+          readinessProbe:
+            {{- toYaml .Values.readinessProbe | nindent 12 }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
