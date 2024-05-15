@@ -1,0 +1,18 @@
+services:
+  mongo:
+    image: mongo:7.0.9
+    ports:
+      - 27017:27017
+
+  backend:
+    build:
+      context: backend
+      target: prod
+    environment:
+      - MONGO_URL=mongodb://mongo:27017
+      - IF_USERNAME=${IF_USERNAME}
+      - IF_PASSWORD=${IF_PASSWORD}
+      - API_NINJAS_KEY=${API_NINJAS_KEY}
+      - NODE_PORT=80
+    ports:
+      - 8085:80
