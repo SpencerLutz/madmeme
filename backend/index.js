@@ -26,7 +26,7 @@ if (process.env.MONGO_USERNAME && process.env.MONGO_PASSWORD) {
 } else {
   mongoUri = `mongodb://${process.env.MONGO_HOST}:${process.env.MONGO_PORT}`;
 }
-const client = new MongoClient(process.env.MONGO_URL, {
+const client = new MongoClient(mongoUri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   serverApi: ServerApiVersion.v1,
