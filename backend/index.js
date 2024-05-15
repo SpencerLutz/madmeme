@@ -23,6 +23,10 @@ const coll_name = 'memes'
 const client = new MongoClient(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 client.connect();
 
+app.get("/ping", (_, response) => {
+    response.render(".");
+})
+
 app.get("/", (_, response) => {
     response.render("index");
 });
