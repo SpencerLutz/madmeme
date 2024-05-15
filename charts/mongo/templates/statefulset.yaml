@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "mongo.fullname" . }}
+  labels:
+    {{- include "mongo.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "mongo.selectorLabels" . | nindent 6 }}
+  serviceName: {{ include "mongo.fullname" . }}
+  template:
+    metadata:
+      labels:
+        {{- include "mongo.labels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 27017
+              protocol: TCP
+          env:
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: {{ include "mongo.fullname" . }}
+            - name: MONGO_INITDB_ROOT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  key: user
+                  name: {{ include "mongo.fullname" . }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - mountPath: /data/db
+              name: data
+              subPath: mongo
+  volumeClaimTemplates:
+    - metadata:
+        labels:
+          {{- include "mongo.labels" . | nindent 10 }}
+        name: data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: {{ .Values.pvc.size }}
+        {{- if .Values.pvc.storageClass }}
+        storageClassName: {{ .Values.pvc.storageClass }}
+        {{- end }}
