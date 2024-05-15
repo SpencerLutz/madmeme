@@ -40,3 +40,24 @@ jobs:
           mkdir "${HOME}"/.kube
           echo "${{ secrets.KUBE_CONFIG_64 }}" | base64 -d > "${HOME}/.kube/config"
           chmod 600 "${HOME}/.kube/config"
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v4.1.0
+
+      - name: Deploy Madmeme
+        run: |
+          helm upgrade \
+            --install \
+            --namespace=${{ secrets.KUBE_NS }} \
+            --create-namespace \
+            --set "image.repository=${{ secrets.PRIVATE_DOCKER_HOST }}/${{ secrets.MADMEME_IMAGE }}" \
+            --set "image.tag=${{ github.event.inputs.tag }}" \
+            --set "image.creds.host=${{ secrets.PRIVATE_DOCKER_HOST }}" \
+            --set "image.creds.username=${{ secrets.PRIVATE_DOCKER_USERNAME }}" \
+            --set "image.creds.password=${{ secrets.PRIVATE_DOCKER_PASSWORD }}" \
+            --set "ingress.host=${{ secrets.HOST }}" \
+            --set "imgFlipUsername=${{ secrets.IMGFLIP_USERNAME }}" \
+            --set "imgFlipPassword=${{ secrets.IMGFLIP_PASSWORD }}" \
+            --set "apiNinjasKey=${{ secrets.API_NINJAS_KEY }}" \
+            --set "postgres.pvc.storageClass=${{ secrets.PVC_STORAGE_CLASS }}" \
+            backend charts/backend
