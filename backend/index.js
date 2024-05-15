@@ -20,6 +20,12 @@ console.log(`Web server started and running at http://localhost:${portNumber}`)
 const db_name = 'madmeme'
 const coll_name = 'memes'
 
+let mongoUri = ""
+if (process.env.MONGO_USERNAME && process.env.MONGO_PASSWORD) {
+    mongoUri = `mongodb://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOST}:${process.env.MONGO_PORT}`
+} else {
+    mongoUri = `mongodb://${process.env.MONGO_HOST}:${process.env.MONGO_PORT}`
+}
 const client = new MongoClient(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 client.connect();
 
