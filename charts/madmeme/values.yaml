@@ -1,0 +1,43 @@
+replicaCount: 1
+
+image:
+  creds:
+    host:
+    username:
+    password:
+  repository:
+  pullPolicy: IfNotPresent
+  tag:
+
+imgFlipUsername:
+imgFlipPassword:
+apiNinjasKey:
+
+ingress:
+  enabled: true
+  host:
+  prefix:
+  tls:
+    enabled: true
+    secretName: ingress-cert
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+livenessProbe:
+  httpGet:
+    path: /ping
+    port: http
+readinessProbe:
+  httpGet:
+    path: /ping
+    port: http
+
+mongo:
+  pvc:
+    size: 10Gi
