@@ -60,4 +60,4 @@ jobs:
             --set "imgFlipPassword=${{ secrets.IMGFLIP_PASSWORD }}" \
             --set "apiNinjasKey=${{ secrets.API_NINJAS_KEY }}" \
             --set "postgres.pvc.storageClass=${{ secrets.PVC_STORAGE_CLASS }}" \
-            backend charts/backend
+            madmeme charts/madmeme
