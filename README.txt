@@ -1,6 +1,6 @@
 MadMeme - A Mad Libs-inspired Meme Generator
 
-https://madmeme.sites-admin.com/
+https://madmeme.levilutz.com/
 
 Andrew Green (agreen13), Levi Lutz (levi), Spencer Lutz (sjlutz)
 

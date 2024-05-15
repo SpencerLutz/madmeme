@@ -2,7 +2,7 @@
 
 ### Andrew Green, Levi Lutz, Spencer Lutz
 
-## [Try it here!](https://madmeme.sites-admin.com/)
+## [Try it here!](https://madmeme.levilutz.com/)
 
 ## Description
 
