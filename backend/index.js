@@ -7,7 +7,7 @@ const utils = require('./src/utils.js')
 require("dotenv").config({ path: path.resolve(__dirname, '.env') })
 require('express-async-errors');
 
-const portNumber = process.argv[2] || 5000;
+const portNumber = process.argv[2] || process.env.NODE_PORT || 5000;
 
 app.use(bodyParser.urlencoded({extended:false}));
 app.set("views", path.resolve(__dirname, "templates"));
@@ -17,13 +17,10 @@ app.use(express.static(path.resolve(__dirname, "static")));
 app.listen(portNumber);
 console.log(`Web server started and running at http://localhost:${portNumber}`)
 
-const username = process.env.DB_USERNAME;
-const password = process.env.DB_PASSWORD;
 const db_name = 'madmeme'
 const coll_name = 'memes'
 
-const uri = `mongodb+srv://${username}:${password}@cluster0.4yqidsx.mongodb.net/?retryWrites=true&w=majority`;
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+const client = new MongoClient(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 client.connect();
 
 app.get("/", (_, response) => {
