@@ -26,7 +26,7 @@ jobs:
           password: ${{ secrets.PRIVATE_DOCKER_PASSWORD }}
 
       - name: Build and Push Service
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: backend
           target: prod

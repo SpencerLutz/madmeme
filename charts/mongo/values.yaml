@@ -3,7 +3,7 @@ replicaCount: 1
 image:
   repository: mongo
   pullPolicy: IfNotPresent
-  tag: "7.0.9"
+  tag: "8.0.8"
 
 resources:
   limits:
