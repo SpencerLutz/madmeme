@@ -51,6 +51,9 @@ async function getMeme(top, bottom, template) {
   });
 
   data = await response.json();
+  if (!data.success) {
+    throw new Error(`Failed to caption image: ${data.error_message}`);
+  }
   return data.data.url;
 }
 

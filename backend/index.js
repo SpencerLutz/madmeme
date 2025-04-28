@@ -1,15 +1,13 @@
 const path = require("path");
 const express = require("express");
 const app = express();
-const bodyParser = require("body-parser");
 const { MongoClient, ServerApiVersion } = require("mongodb");
 const utils = require("./src/utils.js");
 require("dotenv").config({ path: path.resolve(__dirname, ".env") });
-require("express-async-errors");
 
 const portNumber = process.argv[2] || process.env.NODE_PORT || 5000;
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: false }));
 app.set("views", path.resolve(__dirname, "templates"));
 app.set("view engine", "ejs");
 app.use(express.static(path.resolve(__dirname, "static")));
