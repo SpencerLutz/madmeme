@@ -1,11 +1,8 @@
 replicaCount: 1
 
 image:
-  creds:
-    host:
-    username:
-    password:
-  repository:
+  imagePullSecretName: ecr-creds
+  repository: 782197776658.dkr.ecr.us-east-1.amazonaws.com/madmeme/backend
   pullPolicy: IfNotPresent
   tag:
 
