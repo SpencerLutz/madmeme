@@ -10,13 +10,13 @@ imgFlipUsername:
 imgFlipPassword:
 apiNinjasKey:
 
-ingress:
+httpRoute:
   enabled: true
-  host:
-  prefix:
-  tls:
-    enabled: true
-    secretName: ingress-cert
+  annotations: {}
+  parent:
+    name: primary
+    namespace: gateway
+  hostname: madmeme.levilutz.com
 
 resources:
   limits:
