@@ -15,7 +15,7 @@ spec:
         {{- include "madmeme.labels" . | nindent 8 }}
     spec:
       imagePullSecrets:
-        - name: {{ printf "%s-regcred" ( include "madmeme.fullname" . ) }}
+        - name: {{ .Values.image.imagePullSecretName }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
