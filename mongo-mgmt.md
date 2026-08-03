@@ -3,7 +3,7 @@
 1. Back up the cluster database:
 
 ```bash
-kubectl exec --namespace=$KUBE_NS $KUBE_POD -- mongodump "mongodb://$USER:$PASSWORD@localhost:27017" --gzip --archive > dump.gz
+kubectl exec --namespace=$KUBE_NS $KUBE_POD -- mongodump "mongodb://$USER:$PASSWORD@localhost:27017" --db madmeme --authenticationDatabase admin --gzip --archive > dump.gz
 ```
 
 2. Bump `image.tag` in the relevant [values.yaml](charts/mongo/values.yaml) to the desired image version
@@ -15,7 +15,7 @@ cd charts/madmeme
 helm dependency update
 ```
 
-4. Push the changes to the main branch in Github, push a tag for the new build, and manually execute the `deploy` GHA workflow.
+4. Push the changes to the main branch in Github, push a tag for the new build / deploy.
 
 5. (Optional) If data loss has occurred and restoration is necessary:
 
