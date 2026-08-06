@@ -1,11 +1,8 @@
 replicaCount: 1
 
 image:
-  creds:
-    host:
-    username:
-    password:
-  repository:
+  imagePullSecretName: ecr-creds
+  repository: 782197776658.dkr.ecr.us-east-1.amazonaws.com/madmeme/backend
   pullPolicy: IfNotPresent
   tag:
 
@@ -13,13 +10,13 @@ imgFlipUsername:
 imgFlipPassword:
 apiNinjasKey:
 
-ingress:
+httpRoute:
   enabled: true
-  host:
-  prefix:
-  tls:
-    enabled: true
-    secretName: ingress-cert
+  annotations: {}
+  parent:
+    name: primary
+    namespace: gateway
+  hostname: madmeme.levilutz.com
 
 resources:
   limits:
@@ -40,4 +37,12 @@ readinessProbe:
 
 mongo:
   pvc:
-    size: 10Gi
+    size: 1Gi
+    storageClass: do-block-storage-retain
+  resources:
+    limits:
+      cpu: 100m
+      memory: 384Mi
+    requests:
+      cpu: 100m
+      memory: 384Mi

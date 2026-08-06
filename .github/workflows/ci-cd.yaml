@@ -1,0 +1,79 @@
+name: CI/CD
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  build:
+    name: Build and Push
+    runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v5
+        with:
+          aws-region: us-east-1
+          role-to-assume: arn:aws:iam::782197776658:role/MadmemeGHARole
+
+      - name: Login to AWS ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and Push
+        uses: docker/build-push-action@v6
+        with:
+          context: backend
+          target: prod
+          platforms: linux/amd64
+          push: true
+          tags: 782197776658.dkr.ecr.us-east-1.amazonaws.com/madmeme/backend:${{ github.ref_name }}
+
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    needs:
+      - build
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Load kube config
+        run: |
+          mkdir -p "${HOME}/.kube"
+          echo "${{ secrets.KUBE_CONFIG_64 }}" | base64 -d > "${HOME}/.kube/config"
+          chmod 600 "${HOME}/.kube/config"
+
+      - name: Fail early if kubeconfig is missing or stale
+        run: kubectl --namespace=app-madmeme get namespace app-madmeme
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v4
+
+      - name: Patch chart version to the git tag
+        run: |
+          echo "Deploying ${{ github.ref_name }}"
+          sed -i "/^appVersion:/c\\appVersion: \"${{ github.ref_name }}\"" charts/madmeme/Chart.yaml
+          sed -i "/^version:/c\\version: \"$(echo ${{ github.ref_name }} | cut -c2-)\"" charts/madmeme/Chart.yaml
+          cat charts/madmeme/Chart.yaml
+
+      - name: Deploy Madmeme
+        run: |
+          helm upgrade --install --reset-values --atomic --wait --timeout 5m \
+            --namespace=app-madmeme \
+            --set "image.tag=${{ github.ref_name }}" \
+            --set "imgFlipUsername=${{ secrets.IMGFLIP_USERNAME }}" \
+            --set "imgFlipPassword=${{ secrets.IMGFLIP_PASSWORD }}" \
+            --set "apiNinjasKey=${{ secrets.API_NINJAS_KEY }}" \
+            madmeme charts/madmeme

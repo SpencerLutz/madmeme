@@ -1,5 +1,6 @@
 const qs = require("querystring");
 const path = require("path");
+const words = require("./words.json");
 
 let meme_ids = null;
 
@@ -11,17 +12,9 @@ async function getWords(types) {
     throw new Error(`Unknown word type: ${types}`);
   }
 
-  requests = types.map((type) =>
-    fetch(`https://api.api-ninjas.com/v1/randomword?type=${type}`, {
-      headers: { "X-Api-Key": process.env.API_NINJAS_KEY },
-    })
+  return types.map(
+    (type) => words[type][Math.floor(Math.random() * words[type].length)]
   );
-
-  resps = await Promise.all(requests);
-
-  jsdata = await Promise.all(resps.map((resp) => resp.json()));
-
-  return jsdata.map((jsd) => jsd.word);
 }
 
 async function getMemeIds(boxes = 2) {
